@@ -56,5 +56,33 @@ public class EndpointsController : ControllerBase
         return Ok(results);
     }
 
+    [HttpGet("status")]
+    public IActionResult GetStatus()
+    {
+        var result = _context.MonitoredEndpoints
+            .Select(e => new
+            {
+                e.Id,
+                e.Name,
+                e.Url,
+                e.IsActive,
+                LatestCheck = _context.HealthCheckResults
+                    .Where(h => h.MonitoredEndpointId == e.Id)
+                    .OrderByDescending(h => h.CheckedAt)
+                    .Select(h => new
+                    {
+                        h.IsUp,
+                        h.StatusCode,
+                        h.ResponseTimeMs,
+                        h.CheckedAt
+                    })
+                    .FirstOrDefault()
+            })
+            .ToList();
+
+        return Ok(result);
+    }
+
+
 }
 
