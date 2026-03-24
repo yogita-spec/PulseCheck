@@ -8,6 +8,33 @@ function App() {
   // State to hold the list of endpoints from our API
   const [endpoints, setEndpoints] = useState([])
 
+  // State for the form inputs
+const [newName, setNewName] = useState('')
+const [newUrl, setNewUrl] = useState('')
+
+// Called when form is submitted
+  const handleSubmit = (e: any) => {
+    e.preventDefault() // stops page from refreshing — like e.Handled = true
+    
+    fetch('http://localhost:5063/api/endpoints', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: newName, url: newUrl, isActive: true })
+    })
+    .then(res => res.json())
+    .then(() => {
+      // Refresh the list after adding
+      fetch('http://localhost:5063/api/endpoints/status')
+        .then(res => res.json())
+        .then(data => setEndpoints(data))
+      // Clear the form
+      setNewName('')
+      setNewUrl('')
+    })
+  }
+
+
+
   // useEffect = "run this code when the component loads"
   // Like Page_Load in WebForms
   useEffect(() => {
@@ -19,6 +46,25 @@ function App() {
   return (
     <div>
       <h1>PulseCheck Dashboard</h1>
+      
+      <form onSubmit={handleSubmit} style={{ marginBottom: '20px' }}>
+      <input
+        type="text"
+        placeholder="Name"
+        value={newName}
+        onChange={e => setNewName(e.target.value)}
+      />
+      <input
+        type="text"
+        placeholder="URL (e.g. https://example.com)"
+        value={newUrl}
+        onChange={e => setNewUrl(e.target.value)}
+      />
+      <button type="submit">Add Endpoint</button>
+    </form>
+
+
+
       {endpoints.map((ep: any) => (
         <div key={ep.id} className="endpoint-card">
         <span>{ep.latestCheck?.isUp ? '🟢' : '🔴'}</span>
