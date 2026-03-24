@@ -3,14 +3,20 @@
 // Yogita, when you're back, tell Claude "let's fix the dots"
 import './App.css'
 import { useEffect, useState } from 'react'
+import { Routes, Route, useNavigate } from 'react-router-dom'
+import EndpointDetail from './EndpointDetail'
+
 
 function App() {
   // State to hold the list of endpoints from our API
-  const [endpoints, setEndpoints] = useState([])
+const [endpoints, setEndpoints] = useState([])
 
   // State for the form inputs
 const [newName, setNewName] = useState('')
 const [newUrl, setNewUrl] = useState('')
+
+const navigate = useNavigate()
+
 
 // Called when form is submitted
   const handleSubmit = (e: any) => {
@@ -44,39 +50,30 @@ const [newUrl, setNewUrl] = useState('')
   }, [])
 
   return (
-    <div>
-      <h1>PulseCheck Dashboard</h1>
-      
-      <form onSubmit={handleSubmit} style={{ marginBottom: '20px' }}>
-      <input
-        type="text"
-        placeholder="Name"
-        value={newName}
-        onChange={e => setNewName(e.target.value)}
-      />
-      <input
-        type="text"
-        placeholder="URL (e.g. https://example.com)"
-        value={newUrl}
-        onChange={e => setNewUrl(e.target.value)}
-      />
-      <button type="submit">Add Endpoint</button>
-    </form>
-
-
-
-      {endpoints.map((ep: any) => (
-        <div key={ep.id} className="endpoint-card">
-        <span>{ep.latestCheck?.isUp ? '🟢' : '🔴'}</span>
-        <span className="endpoint-name">{ep.name}</span>
-        <span className="endpoint-url">{ep.url}</span>
-        <span className="response-time">{ep.latestCheck ? `${ep.latestCheck.responseTimeMs}ms` : 'No data'}</span>
-        <span className="response-time">{ep.latestCheck ? new Date(ep.latestCheck.checkedAt).toLocaleTimeString() : ''}</span>
+  <Routes>
+    <Route path="/" element={
+      <div>
+        <h1>PulseCheck Dashboard</h1>
+        <form onSubmit={handleSubmit} style={{ marginBottom: '20px' }}>
+          <input type="text" placeholder="Name" value={newName} onChange={e => setNewName(e.target.value)} />
+          <input type="text" placeholder="URL (e.g. https://example.com)" value={newUrl} onChange={e => setNewUrl(e.target.value)} />
+          <button type="submit">Add Endpoint</button>
+        </form>
+        {endpoints.map((ep: any) => (
+          <div key={ep.id} className="endpoint-card" onClick={() => navigate(`/endpoints/${ep.id}`)} style={{ cursor: 'pointer' }}>
+            <span>{ep.latestCheck?.isUp ? '🟢' : '🔴'}</span>
+            <span className="endpoint-name">{ep.name}</span>
+            <span className="endpoint-url">{ep.url}</span>
+            <span className="response-time">{ep.latestCheck ? `${ep.latestCheck.responseTimeMs}ms` : 'No data'}</span>
+            <span className="response-time">{ep.latestCheck ? new Date(ep.latestCheck.checkedAt).toLocaleTimeString() : ''}</span>
+          </div>
+        ))}
       </div>
+    } />
+    <Route path="/endpoints/:id" element={<EndpointDetail />} />
+  </Routes>
+)
 
-      ))}
-    </div>
-  )
 }
 
 export default App
