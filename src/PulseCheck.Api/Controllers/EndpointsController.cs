@@ -22,6 +22,16 @@ public class EndpointsController : ControllerBase
         return Ok(endpoints);
     }
 
+     [HttpGet("{id}")]
+    public IActionResult GetById(int id)
+    {
+        var data = _context.MonitoredEndpoints.Find(id);
+        if (data == null)
+            return NotFound();
+        else
+           return Ok(data);
+    }
+
     [HttpPost]
     public IActionResult Create(MonitoredEndpoint endpoint)
     {
@@ -83,6 +93,34 @@ public class EndpointsController : ControllerBase
         return Ok(result);
     }
 
+    [HttpPut("{id}")]
+    public IActionResult Update(int id, MonitoredEndpoint updated)
+    {
+        var endpoint = _context.MonitoredEndpoints.Find(id);
+        if (endpoint == null)
+            return NotFound();
+
+        endpoint.Name = updated.Name;
+        endpoint.Url = updated.Url;
+        _context.SaveChanges();
+        return Ok(endpoint);
+    }
+
+    [HttpDelete("{id}")]
+     public IActionResult Delete(int id)
+    {
+         var endpoint = _context.MonitoredEndpoints.Find(id);
+
+         if (endpoint == null)
+            return NotFound();
+
+        _context.MonitoredEndpoints.Remove(endpoint);
+
+        _context.SaveChanges();
+        return NoContent();
+    }
+
+  
 
 }
 

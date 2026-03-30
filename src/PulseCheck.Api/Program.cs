@@ -3,13 +3,14 @@ using Microsoft.EntityFrameworkCore;
 using PulseCheck.Api.Data;
 using PulseCheck.Api.Services;
 using PulseCheck.Api.BackgroundServices;
+using PulseCheck.Api.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp", policy =>
-        policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+        policy.WithOrigins("http://localhost:5173").AllowAnyMethod().AllowAnyHeader().AllowCredentials());
 });
 
 // Register Controllers (like enabling MVC in old Global.asax)
@@ -17,6 +18,8 @@ builder.Services.AddControllers();
 
 builder.Services.AddDbContext<AppDbContext> (options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddSignalR();
 
 builder.Services.AddHttpClient<HealthCheckService>();
 builder.Services.AddHostedService<BackgroundHealthChecker>();
@@ -26,6 +29,14 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.Migrate();
+}
+
+
 app.UseCors("AllowReactApp");
 
 // Show Swagger only in Development environment
@@ -36,8 +47,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 // Tell the app to route requests to Controllers
 app.MapControllers();
+app.MapHub<HealthCheckHub>("/hub/healthcheck");
 
 app.Run();

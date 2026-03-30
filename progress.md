@@ -35,6 +35,27 @@
 **Milestone:** 9 of 18 features done — ~50% of MVP complete
 **Identity note:** "Built a full-stack app — a React frontend talking to a .NET API showing live data. You're a full-stack developer now."
 
+## Session 6 — 2026-03-24
+
+**Built:** Git init + first commit, status API with real isUp, styled dashboard cards, Add Endpoint form, React Router, EndpointDetail page with history
+**New concepts:** Git init/add/commit, N+1 problem, React Router, useParams, SPA, template literals, optional chaining (?.)
+**Milestone:** 13 of 18 features done — ~72% of MVP complete
+**Identity note:** "Built a multi-page full-stack app with routing, forms, and real data."
+
+## Session 7 — 2026-03-25 (morning, with Aniket)
+
+**Built:** Git/GitHub reconciled, .gitignore updated, CLAUDE.md updated
+**New concepts:** .gitignore rules, git remote, force push safety
+**Milestone:** 13 of 18 — housekeeping session, no new features
+**Identity note:** "Professional repo setup — clean history, no AI files in public repo."
+
+## Session 8 — 2026-03-25 (evening)
+
+**Built:** Fixed git commit messages (interactive rebase + force push), response time chart (Recharts), GET /api/endpoints/{id}, DELETE endpoint (API + UI), Edit endpoint (API + UI)
+**New concepts:** git rebase -i, git stash/pop, git push --force, Recharts LineChart, hard vs soft delete, cascade delete via FK, useEffect vs event handlers, fetch with method/headers/body
+**Milestone:** 15 of 18 features done — ~83% of MVP complete
+**Identity note:** "Built a complete CRUD app with live charts. You can add, view, edit and delete monitored endpoints end-to-end."
+
 ## MVP Feature Checklist
 
 ### Week 1-2: Backend Foundation
@@ -50,11 +71,13 @@
 ### Week 3-4: Frontend + Real-Time
 
 - [x] React project setup (Vite + TypeScript)
-- [ ] Dashboard page (green/red dots) — in progress, needs real isUp status
-- [ ] Add/Edit endpoint form
-- [ ] Endpoint detail page with response time chart
-- [ ] SignalR integration
-- [ ] Connect React to .NET API
+- [x] Dashboard page (green/red dots) — real isUp status working
+- [x] Add endpoint form
+- [x] Endpoint detail page with history
+- [x] Connect React to .NET API
+- [x] Response time chart on detail page
+- [x] Edit/Delete endpoint
+- [x] SignalR integration
 
 ### Week 5-6: DevOps + Polish
 
@@ -65,3 +88,10 @@
 - [ ] README with screenshots
 - [ ] Unit tests (5-10)
 - [ ] Open-source: LICENSE, CONTRIBUTING.md
+
+## Session 9 — 2026-03-28
+
+**Built:** SignalR real-time dashboard (Hub, IHubContext in BackgroundHealthChecker, React SignalR client), fixed stale dashboard data with useLocation, interview questions doc (60 questions)
+**New concepts:** SignalR, Hub, IHubContext, WebSocket, CORS credentials, AllowCredentials, useLocation, useRef, HubConnectionBuilder, withAutomaticReconnect, Docker intro (tiffin box analogy)
+**Milestone:** 16 of 22 features done — ~85% of MVP complete
+**Identity note:** "Built a real-time dashboard that updates live without refreshing. That's production-grade monitoring software."

@@ -1,27 +1,59 @@
-// TODO: Next session — fetch latest HealthCheckResult per endpoint
-// so the 🟢/🔴 dots show real isUp status, not just isActive
-// Yogita, when you're back, tell Claude "let's fix the dots"
+// TODO: Next session — TWO things to do (in this order):
+//
+// 1. FIRST: Clean up the GitHub repo — CLAUDE.md, flashcards.md, progress.md,
+//    session-journal.md, NEXT-SESSION.md, dev-notes.md, PulseCheck-Project-Scope.md
+//    are all showing publicly on GitHub. They need to be removed from Git tracking
+//    (git rm --cached) AND added to .gitignore, then pushed.
+//    Tell Claude: "let's clean up the repo"
+//
+// 2. THEN: SignalR real-time updates — the dashboard will update live, no refresh needed.
+//    Tell Claude: "let's make the dashboard live"
 import './App.css'
 import { useEffect, useState } from 'react'
-import { Routes, Route, useNavigate } from 'react-router-dom'
+import { Routes, Route, useNavigate,useLocation } from 'react-router-dom'
 import EndpointDetail from './EndpointDetail'
+import * as signalR from '@microsoft/signalr'
+
 
 
 function App() {
   // State to hold the list of endpoints from our API
 const [endpoints, setEndpoints] = useState([])
-
   // State for the form inputs
 const [newName, setNewName] = useState('')
 const [newUrl, setNewUrl] = useState('')
-
 const navigate = useNavigate()
+const location = useLocation()
+
+useEffect(() => {
+  // Build the connection — like dialing the conference room
+  const connection = new signalR.HubConnectionBuilder()
+    .withUrl('http://localhost:5063/hub/healthcheck')
+    .withAutomaticReconnect()
+    .build()
+
+  // Listen for the chowkidar's broadcast
+  connection.on('ListenForPing', () => {
+    fetch('http://localhost:5063/api/endpoints/status')
+      .then(res => res.json())
+      .then(data => setEndpoints(data))
+  })
+
+  // Start the connection
+  connection.start()
+    .then(() => console.log('SignalR connected!'))
+    .catch(err => console.error('SignalR failed:', err))
+
+  // Cleanup — hang up when page closes
+  return () => { connection.stop() }
+}, [])
+
 
 
 // Called when form is submitted
   const handleSubmit = (e: any) => {
     e.preventDefault() // stops page from refreshing — like e.Handled = true
-    
+
     fetch('http://localhost:5063/api/endpoints', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -47,7 +79,7 @@ const navigate = useNavigate()
    fetch('http://localhost:5063/api/endpoints/status')
       .then(res => res.json())
       .then(data => setEndpoints(data))
-  }, [])
+  }, [location])
 
   return (
   <Routes>

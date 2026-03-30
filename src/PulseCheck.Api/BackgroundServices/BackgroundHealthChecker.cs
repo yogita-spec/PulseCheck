@@ -1,6 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using PulseCheck.Api.Data;
 using PulseCheck.Api.Services;
+using Microsoft.AspNetCore.SignalR;
+using PulseCheck.Api.Hubs;
+
 
 namespace PulseCheck.Api.BackgroundServices;
 
@@ -9,15 +12,19 @@ public class BackgroundHealthChecker : BackgroundService
     private readonly IServiceProvider _serviceProvider;
     private readonly HealthCheckService _healthCheckService;
     private readonly ILogger<BackgroundHealthChecker> _logger;
+    private readonly IHubContext<HealthCheckHub> _hubContext;
 
     public BackgroundHealthChecker(
         IServiceProvider serviceProvider,
         HealthCheckService healthCheckService,
-        ILogger<BackgroundHealthChecker> logger)
+        ILogger<BackgroundHealthChecker> logger,
+        IHubContext<HealthCheckHub> hubContext
+        )
     {
         _serviceProvider = serviceProvider;
         _healthCheckService = healthCheckService;
         _logger = logger;
+        _hubContext = hubContext;
     }
 
     // TODO: Next session — Yogita, tell Claude "let's recap the chowkidar"
@@ -52,5 +59,6 @@ public class BackgroundHealthChecker : BackgroundService
         }
 
         await db.SaveChangesAsync();
+        await _hubContext.Clients.All.SendAsync("ListenForPing");
     }
 }

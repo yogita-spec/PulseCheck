@@ -29,4 +29,27 @@ Stuck on: Needed deeper explanation of BackgroundService, stoppingToken, and Cre
 Completed: History API with Select projection, React project (Vite+TS), App.tsx fetching real API data, CORS fixed, dashboard showing endpoints with green/red dots
 Next up: Fix dashboard to show real isUp status (fetch latest HealthCheckResult per endpoint) + initialize Git repo and make first commit
 Stuck on: localhost vs IP issue with Vite (fixed via vite.config host:0.0.0.0), CORS error (fixed via AddCors in Program.cs)
-Note: Start Git workflow from next session onwards (git init, .gitignore, first commit, GitHub remote)
+
+## Session 6 — 2026-03-24
+
+Completed: Git init + first commit + GitHub remote, status API with real isUp, styled dashboard, Add Endpoint form, React Router, EndpointDetail history page
+Next up: Response time chart (Recharts), then SignalR
+Stuck on: localhost vs IP Vite issue (recurring), API already running lock error (harmless)
+
+## Session 7 — 2026-03-25 (morning, Aniket)
+
+Completed: Git/GitHub reconciled, .gitignore updated (AI files excluded), CLAUDE.md updated
+Next up: Fix em dash commit messages (rebase lesson), then response time chart
+Stuck on: Nothing - housekeeping session
+
+## Session 8 — 2026-03-25 (evening)
+
+Completed: Git rebase to fix em dash commit messages + force push, Recharts response time chart, GET /api/endpoints/{id}, full Edit + Delete (API + React UI)
+Next up: SignalR for real-time dashboard updates — the "wow" feature
+Stuck on: Vim during rebase (switched to GitLens UI), Windows VPN popup (unrelated)
+
+## Session 9 — 2026-03-28
+
+Completed: SignalR end-to-end (Hub + BackgroundHealthChecker broadcast + React client), fixed stale data bug with useLocation, interview questions doc (60 Qs)
+Next up: Docker — Dockerfile + docker-compose (concept introduced, will build next session)
+Stuck on: URL mismatch ("/hub" vs "/hubs") — good debugging lesson. Also requested to type all code herself (feedback saved).
