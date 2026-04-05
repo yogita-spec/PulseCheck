@@ -7,6 +7,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{768AA407-0E9
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PulseCheck.Api", "src\PulseCheck.Api\PulseCheck.Api.csproj", "{1BA53583-10E2-417D-BCE9-7B69BFBE4495}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{901D4F20-25E6-40AF-B315-9E3DB8F48A30}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PulseCheck.Api.Tests", "tests\PulseCheck.Api.Tests\PulseCheck.Api.Tests.csproj", "{4482BC7A-A14B-4857-963D-A0F6762C12B7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,8 +24,13 @@ Global
 		{1BA53583-10E2-417D-BCE9-7B69BFBE4495}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1BA53583-10E2-417D-BCE9-7B69BFBE4495}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1BA53583-10E2-417D-BCE9-7B69BFBE4495}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4482BC7A-A14B-4857-963D-A0F6762C12B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4482BC7A-A14B-4857-963D-A0F6762C12B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4482BC7A-A14B-4857-963D-A0F6762C12B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4482BC7A-A14B-4857-963D-A0F6762C12B7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{1BA53583-10E2-417D-BCE9-7B69BFBE4495} = {768AA407-0E90-41F0-BBA3-69C99BA13C4F}
+		{4482BC7A-A14B-4857-963D-A0F6762C12B7} = {901D4F20-25E6-40AF-B315-9E3DB8F48A30}
 	EndGlobalSection
 EndGlobal
